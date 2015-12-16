@@ -9,11 +9,9 @@ class Admins::ArticlesController < ApplicationController
 	def create
 		 @article = Article.new(article_params)
 		 @article.save 
-		 redirect_to :action=>"show", :controller=>"admins/articles"
-	end
-
-	def show
-		@article = Article.find_by_id(params[:id])
+		 # redirect_to :action=>"show", :controller=>"admins/articles", id: @article.id
+		 # redirect_to admins_articles_path(id: @artilce.id)
+		 redirect_to admins_articles_path(@articles)
 	end
 
 	private

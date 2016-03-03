@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151209095004) do
+ActiveRecord::Schema.define(version: 20160224083130) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",              limit: 255, default: "", null: false
@@ -28,14 +28,27 @@ ActiveRecord::Schema.define(version: 20151209095004) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
 
   create_table "articles", force: :cascade do |t|
-    t.string   "title",      limit: 255
-    t.text     "content",    limit: 65535
-    t.integer  "admin_id",   limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "title",                 limit: 255
+    t.text     "content",               limit: 65535
+    t.datetime "post_reservation_time"
+    t.string   "post_status",           limit: 255
+    t.integer  "admin_id",              limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "articles", ["admin_id"], name: "index_articles_on_admin_id", using: :btree
 
+  create_table "comments", force: :cascade do |t|
+    t.string   "commenter",  limit: 255
+    t.text     "body",       limit: 65535
+    t.integer  "article_id", limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "comments", ["article_id"], name: "index_comments_on_article_id", using: :btree
+
   add_foreign_key "articles", "admins"
+  add_foreign_key "comments", "articles"
 end
